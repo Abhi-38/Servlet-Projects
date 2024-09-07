@@ -1,0 +1,2017 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Language" content="en">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Analytics Dashboard - This is an example dashboard created using build-in elements and components.</title>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+  <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+  <meta name="msapplication-tap-highlight" content="no">
+  <link href="https://demo.dashboardpack.com/architectui-html-free/main.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+  <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/metismenu/dist/metisMenu.min.css">
+
+
+<style>
+  .card-body h1 {
+    margin-top: 0;
+  }
+
+ .circular-progress {
+     position: relative;
+     height: 100px;
+     width: 100px;
+     border-radius: 50%;
+     background: conic-gradient(#7d2ae8 3.6deg, #ededed 0deg);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+   }
+
+   .circular-progress::before {
+     content: "";
+     position: absolute;
+     height: 80px;
+     width: 80px;
+     border-radius: 50%;
+     background-color: #000009;
+   }
+
+   .progress-value {
+     position: relative;
+     font-size: 20px;
+     font-weight: 600;
+     color: #fff;
+   }
+    
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+
+
+    z-index: 1;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 220px;
+    /* Adjusted width to accommodate padding */
+  }
+
+  .dropdown-content label {
+    display: block;
+    padding-right: 50px;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+    height: 500px;
+
+
+
+  }
+
+  .form-group {
+    display: none;
+  }
+
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+
+  .maincard {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+
+
+
+  .selected-filters {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .user-profile {
+    display: flex;
+    align-items: center;
+
+  }
+
+  .profile-img {
+    width: 70px;
+    /* Adjust size as needed */
+    height: 70px;
+    /* Adjust size as needed */
+    margin-right: 10px;
+    /* Adjust spacing between image and text */
+  }
+
+  #barchart {
+    width: 100%;
+    height: 500px;
+  }
+
+  #container {
+    width: 100%;
+    height: 500px;
+    padding: 20px;
+
+
+  }
+
+  .form-group {
+    position: relative;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+
+  .remove-button {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px 10px;
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .form-group:hover .remove-button {
+    display: block;
+  }
+
+  #tableButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  #tableContainer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  }
+
+  #tableContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+  }
+  
+  .visible {
+	    visibility: visible !important;
+	}
+  
+</style>
+
+<body>
+  <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+    <div class="app-header header-shadow">
+      <div class="app-header__logo">
+        <div class="logo-src"></div>
+        <div class="header__pane ml-auto">
+          <div>
+            <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+              <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="app-header__mobile-menu">
+        <div>
+          <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+            <span class="hamburger-box">
+              <span class="hamburger-inner"></span>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="app-header__menu">
+        <span>
+          <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+            <span class="btn-icon-wrapper">
+              <i class="fa fa-ellipsis-v fa-w-6"></i>
+            </span>
+          </button>
+        </span>
+      </div>
+      <div class="app-header__content">
+        <div class="app-header-left">
+          <div class="search-wrapper">
+            <div class="input-holder">
+              <input type="text" class="search-input" placeholder="Type to search">
+              <button class="search-icon"><span></span></button>
+            </div>
+            <button class="close"></button>
+          </div>
+          <ul class="header-menu nav">
+            <li class="nav-item">
+              <a href="javascript:void(0);" class="nav-link">
+                <i class="nav-link-icon fa fa-database"> </i>
+                Statistics
+              </a>
+            </li>
+            <li class="btn-group nav-item">
+              <a href="javascript:void(0);" class="nav-link">
+                <i class="nav-link-icon fa fa-edit"></i>
+                Projects
+              </a>
+            </li>
+            <li class="dropdown nav-item">
+              <a href="javascript:void(0);" class="nav-link">
+                <i class="nav-link-icon fa fa-cog"></i>
+                Settings
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="app-header-right">
+          <div class="header-btn-lg pr-0">
+            <div class="widget-content p-0">
+              <div class="widget-content-wrapper">
+                <div class="widget-content-left">
+                  <div class="btn-group">
+                    <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+                      <img width="42" class="rounded-circle" src="assets/images/avatars/1.jpg" alt="">
+                      <i class="fa fa-angle-down ml-2 opacity-8"></i>
+                    </a>
+                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                      <button type="button" tabindex="0" class="dropdown-item">User Account</button>
+                      <button type="button" tabindex="0" class="dropdown-item">Settings</button>
+                      <h6 tabindex="-1" class="dropdown-header">Header</h6>
+                      <button type="button" tabindex="0" class="dropdown-item">Actions</button>
+                      <div tabindex="-1" class="dropdown-divider"></div>
+                      <button type="button" tabindex="0" class="dropdown-item">Dividers</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="widget-content-left  ml-3 header-user-info">
+                  <div class="widget-heading">
+                    Alina Mclourd
+                  </div>
+                  <div class="widget-subheading">
+                    VP People Manager
+                  </div>
+                </div>
+                <div class="widget-content-right header-user-info ml-3">
+                  <button type="button" class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example">
+                    <i class="fa text-white fa-calendar pr-1 pl-1"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui-theme-settings">
+      <button type="button" id="TooltipDemo" class="btn-open-options btn btn-warning">
+        <i class="fa fa-cog fa-w-16 fa-spin fa-2x"></i>
+      </button>
+      <div class="theme-settings__inner">
+        <div class="scrollbar-container">
+          <div class="theme-settings__options-wrapper">
+            <h3 class="themeoptions-heading">Layout Options
+            </h3>
+            <div class="p-3">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <div class="widget-content p-0">
+                    <div class="widget-content-wrapper">
+                      <div class="widget-content-left mr-3">
+                        <div class="switch has-switch switch-container-class" data-class="fixed-header">
+                          <div class="switch-animate switch-on">
+                            <input type="checkbox" checked data-toggle="toggle" data-onstyle="success">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="widget-content-left">
+                        <div class="widget-heading">Fixed Header
+                        </div>
+                        <div class="widget-subheading">Makes the header top fixed, always visible!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="widget-content p-0">
+                    <div class="widget-content-wrapper">
+                      <div class="widget-content-left mr-3">
+                        <div class="switch has-switch switch-container-class" data-class="fixed-sidebar">
+                          <div class="switch-animate switch-on">
+                            <input type="checkbox" checked data-toggle="toggle" data-onstyle="success">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="widget-content-left">
+                        <div class="widget-heading">Fixed Sidebar
+                        </div>
+                        <div class="widget-subheading">Makes the sidebar left fixed, always visible!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="widget-content p-0">
+                    <div class="widget-content-wrapper">
+                      <div class="widget-content-left mr-3">
+                        <div class="switch has-switch switch-container-class" data-class="fixed-footer">
+                          <div class="switch-animate switch-off">
+                            <input type="checkbox" data-toggle="toggle" data-onstyle="success">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="widget-content-left">
+                        <div class="widget-heading">Fixed Footer
+                        </div>
+                        <div class="widget-subheading">Makes the app footer bottom fixed, always visible!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <h3 class="themeoptions-heading">
+              <div>
+                Header Options
+              </div>
+              <button type="button"
+                class="btn-pill btn-shadow btn-wide ml-auto btn btn-focus btn-sm switch-header-cs-class" data-class="">
+                Restore Default
+              </button>
+            </h3>
+            <div class="p-3">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <h5 class="pb-2">Choose Color Scheme
+                  </h5>
+                  <div class="theme-settings-swatches">
+                    <div class="swatch-holder bg-primary switch-header-cs-class"
+                      data-class="bg-primary header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-secondary switch-header-cs-class"
+                      data-class="bg-secondary header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-success switch-header-cs-class"
+                      data-class="bg-success header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-info switch-header-cs-class" data-class="bg-info header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-warning switch-header-cs-class"
+                      data-class="bg-warning header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-danger switch-header-cs-class"
+                      data-class="bg-danger header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-light switch-header-cs-class" data-class="bg-light header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-dark switch-header-cs-class" data-class="bg-dark header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-focus switch-header-cs-class" data-class="bg-focus header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-alternate switch-header-cs-class"
+                      data-class="bg-alternate header-text-light">
+                    </div>
+                    <div class="divider">
+                    </div>
+                    <div class="swatch-holder bg-vicious-stance switch-header-cs-class"
+                      data-class="bg-vicious-stance header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-midnight-bloom switch-header-cs-class"
+                      data-class="bg-midnight-bloom header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-night-sky switch-header-cs-class"
+                      data-class="bg-night-sky header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-slick-carbon switch-header-cs-class"
+                      data-class="bg-slick-carbon header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-asteroid switch-header-cs-class"
+                      data-class="bg-asteroid header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-royal switch-header-cs-class" data-class="bg-royal header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-warm-flame switch-header-cs-class"
+                      data-class="bg-warm-flame header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-night-fade switch-header-cs-class"
+                      data-class="bg-night-fade header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-sunny-morning switch-header-cs-class"
+                      data-class="bg-sunny-morning header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-tempting-azure switch-header-cs-class"
+                      data-class="bg-tempting-azure header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-amy-crisp switch-header-cs-class"
+                      data-class="bg-amy-crisp header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-heavy-rain switch-header-cs-class"
+                      data-class="bg-heavy-rain header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-mean-fruit switch-header-cs-class"
+                      data-class="bg-mean-fruit header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-malibu-beach switch-header-cs-class"
+                      data-class="bg-malibu-beach header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-deep-blue switch-header-cs-class"
+                      data-class="bg-deep-blue header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-ripe-malin switch-header-cs-class"
+                      data-class="bg-ripe-malin header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-arielle-smile switch-header-cs-class"
+                      data-class="bg-arielle-smile header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-plum-plate switch-header-cs-class"
+                      data-class="bg-plum-plate header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-happy-fisher switch-header-cs-class"
+                      data-class="bg-happy-fisher header-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-happy-itmeo switch-header-cs-class"
+                      data-class="bg-happy-itmeo header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-mixed-hopes switch-header-cs-class"
+                      data-class="bg-mixed-hopes header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-strong-bliss switch-header-cs-class"
+                      data-class="bg-strong-bliss header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-grow-early switch-header-cs-class"
+                      data-class="bg-grow-early header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-love-kiss switch-header-cs-class"
+                      data-class="bg-love-kiss header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-premium-dark switch-header-cs-class"
+                      data-class="bg-premium-dark header-text-light">
+                    </div>
+                    <div class="swatch-holder bg-happy-green switch-header-cs-class"
+                      data-class="bg-happy-green header-text-light">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <h3 class="themeoptions-heading">
+              <div>Sidebar Options</div>
+              <button type="button"
+                class="btn-pill btn-shadow btn-wide ml-auto btn btn-focus btn-sm switch-sidebar-cs-class" data-class="">
+                Restore Default
+              </button>
+            </h3>
+            <div class="p-3">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <h5 class="pb-2">Choose Color Scheme
+                  </h5>
+                  <div class="theme-settings-swatches">
+                    <div class="swatch-holder bg-primary switch-sidebar-cs-class"
+                      data-class="bg-primary sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-secondary switch-sidebar-cs-class"
+                      data-class="bg-secondary sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-success switch-sidebar-cs-class"
+                      data-class="bg-success sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-info switch-sidebar-cs-class" data-class="bg-info sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-warning switch-sidebar-cs-class"
+                      data-class="bg-warning sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-danger switch-sidebar-cs-class"
+                      data-class="bg-danger sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-light switch-sidebar-cs-class" data-class="bg-light sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-dark switch-sidebar-cs-class" data-class="bg-dark sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-focus switch-sidebar-cs-class"
+                      data-class="bg-focus sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-alternate switch-sidebar-cs-class"
+                      data-class="bg-alternate sidebar-text-light">
+                    </div>
+                    <div class="divider">
+                    </div>
+                    <div class="swatch-holder bg-vicious-stance switch-sidebar-cs-class"
+                      data-class="bg-vicious-stance sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-midnight-bloom switch-sidebar-cs-class"
+                      data-class="bg-midnight-bloom sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-night-sky switch-sidebar-cs-class"
+                      data-class="bg-night-sky sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-slick-carbon switch-sidebar-cs-class"
+                      data-class="bg-slick-carbon sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-asteroid switch-sidebar-cs-class"
+                      data-class="bg-asteroid sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-royal switch-sidebar-cs-class"
+                      data-class="bg-royal sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-warm-flame switch-sidebar-cs-class"
+                      data-class="bg-warm-flame sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-night-fade switch-sidebar-cs-class"
+                      data-class="bg-night-fade sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-sunny-morning switch-sidebar-cs-class"
+                      data-class="bg-sunny-morning sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-tempting-azure switch-sidebar-cs-class"
+                      data-class="bg-tempting-azure sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-amy-crisp switch-sidebar-cs-class"
+                      data-class="bg-amy-crisp sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-heavy-rain switch-sidebar-cs-class"
+                      data-class="bg-heavy-rain sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-mean-fruit switch-sidebar-cs-class"
+                      data-class="bg-mean-fruit sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-malibu-beach switch-sidebar-cs-class"
+                      data-class="bg-malibu-beach sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-deep-blue switch-sidebar-cs-class"
+                      data-class="bg-deep-blue sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-ripe-malin switch-sidebar-cs-class"
+                      data-class="bg-ripe-malin sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-arielle-smile switch-sidebar-cs-class"
+                      data-class="bg-arielle-smile sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-plum-plate switch-sidebar-cs-class"
+                      data-class="bg-plum-plate sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-happy-fisher switch-sidebar-cs-class"
+                      data-class="bg-happy-fisher sidebar-text-dark">
+                    </div>
+                    <div class="swatch-holder bg-happy-itmeo switch-sidebar-cs-class"
+                      data-class="bg-happy-itmeo sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-mixed-hopes switch-sidebar-cs-class"
+                      data-class="bg-mixed-hopes sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-strong-bliss switch-sidebar-cs-class"
+                      data-class="bg-strong-bliss sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-grow-early switch-sidebar-cs-class"
+                      data-class="bg-grow-early sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-love-kiss switch-sidebar-cs-class"
+                      data-class="bg-love-kiss sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-premium-dark switch-sidebar-cs-class"
+                      data-class="bg-premium-dark sidebar-text-light">
+                    </div>
+                    <div class="swatch-holder bg-happy-green switch-sidebar-cs-class"
+                      data-class="bg-happy-green sidebar-text-light">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <h3 class="themeoptions-heading">
+              <div>Main Content Options</div>
+              <button type="button" class="btn-pill btn-shadow btn-wide ml-auto active btn btn-focus btn-sm">Restore
+                Default
+              </button>
+            </h3>
+            <div class="p-3">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <h5 class="pb-2">Page Section Tabs
+                  </h5>
+                  <div class="theme-settings-swatches">
+                    <div role="group" class="mt-2 btn-group">
+                      <button type="button" class="btn-wide btn-shadow btn-primary btn btn-secondary switch-theme-class"
+                        data-class="body-tabs-line">
+                        Line
+                      </button>
+                      <button type="button"
+                        class="btn-wide btn-shadow btn-primary active btn btn-secondary switch-theme-class"
+                        data-class="body-tabs-shadow">
+                        Shadow
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="app-main">
+      <div class="app-sidebar sidebar-shadow">
+        <div class="app-header__logo">
+          <div class="logo-src"></div>
+          <div class="header__pane ml-auto">
+            <div>
+              <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                <span class="hamburger-box">
+                  <span class="hamburger-inner"></span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="app-header__mobile-menu">
+          <div>
+            <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+              <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div class="app-header__menu">
+          <span>
+            <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+              <span class="btn-icon-wrapper">
+                <i class="fa fa-ellipsis-v fa-w-6"></i>
+              </span>
+            </button>
+          </span>
+        </div>
+        <div class="scrollbar-sidebar">
+          <div class="app-sidebar__inner">
+            <ul class="vertical-nav-menu">
+              <li class="app-sidebar__heading">Dashboards</li>
+              <li>
+                <a href="index.html" class="mm-active">
+                  <i class="metismenu-icon pe-7s-rocket"></i>
+                  Dashboard Example 1
+                </a>
+              </li>
+              <li class="app-sidebar__heading">UI Components</li>
+              <li>
+
+
+                <ul>
+                  <li>
+                    <a href="elements-buttons-standard.html">
+                      <i class="metismenu-icon"></i>
+                      Buttons
+                    </a>
+                  </li>
+                  <li>
+                    <a href="elements-dropdowns.html">
+                      <i class="metismenu-icon">
+                      </i>Dropdowns
+                    </a>
+                  </li>
+                  <li>
+                    <a href="elements-icons.html">
+                      <i class="metismenu-icon">
+                      </i>Icons
+                    </a>
+                  </li>
+                  <li>
+                    <a href="elements-badges-labels.html">
+                      <i class="metismenu-icon">
+                      </i>Badges
+                    </a>
+                  </li>
+                  <li>
+                    <a href="elements-cards.html">
+                      <i class="metismenu-icon">
+                      </i>Cards
+                    </a>
+                  </li>
+                  <li>
+                    <a href="elements-list-group.html">
+                      <i class="metismenu-icon">
+                      </i>List Groups
+                    </a>
+                  </li>
+                  <li>
+                    <a href="elements-navigation.html">
+                      <i class="metismenu-icon">
+                      </i>Navigation Menus
+                    </a>
+                  </li>
+                  <li>
+                    <a href="elements-utilities.html">
+                      <i class="metismenu-icon">
+                      </i>Utilities
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="metismenu-icon pe-7s-car"></i>
+                  Components
+                  <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                </a>
+                <ul>
+                  <li class="dropdown">
+
+
+                    <a class="#">Select Fields
+                      <div class="dropdown-content pl-4">
+	                        <label><input type="checkbox" name="filterId" value="1"
+	                            data-option-id="CustomerCodeSelect"> Customer Code</label>
+	                        <label><input type="checkbox" name="filterId" value="2" data-option-id="StatusSelect">
+	                          Status</label>
+	                        <label><input type="checkbox" name="filterId" value="3" data-option-id="DateSelect"/>
+	                        Date</label>  
+	                        <label><input type="checkbox" name="filterId" value="4"
+	                            data-option-id="paymentModeSelect"> Payment Mode</label>
+	                        <label><input type="checkbox" name="filterId" value="5"
+	                            data-option-id="DebitAccountNoSelect"> Debit Account No</label>
+	                        <label><input type="checkbox" name="filterId" value="6"
+	                            data-option-id="BeneficiaryNameSelect"> Beneficiary Name</label>
+	                        <label><input type="checkbox" name="filterId" value="7"
+	                            data-option-id="SelectBankSelect"> Select Bank</label>
+	                        <label><input type="checkbox" name="filterId" value="8"
+	                            data-option-id="CreditAccountNoSelect"> Credit Account No</label>
+	                        <label><input type="checkbox" name="filterId" value="9" data-option-id="bankStateSelect">
+	                          Bank State</label>
+							
+	                        <!-- Add more options as needed -->
+	                        <label><button class="btn btn-success" onclick="getSelectedFields()">Selected
+	                            Fields</button></label>
+					 </div>
+                    </a>
+
+                  </li>
+                  <li>
+                    <a href="components-accordions.html">
+                      <i class="metismenu-icon">
+                      </i>Cards
+                    </a>
+
+                
+                      <ul id="removedCards" class="list-group">
+                        <!-- List to hold removed cards -->
+                      </ul>
+                 
+                  </li>
+                  
+                </ul>
+              </li>
+             <li>
+               <a href="tables-regular.html">
+                 <i class="metismenu-icon pe-7s-display2"></i>
+                 Tables
+               </a>
+               <ul id="removedTable" class="list-group">
+                 <!-- List to hold removed cards -->
+               </ul>
+             </li>
+              
+              <li class="app-sidebar__heading">Widgets</li>
+              <li>
+                <a href="dashboard-boxes.html">
+                  <i class="metismenu-icon pe-7s-display2"></i>
+                  Dashboard Boxes
+                </a>
+              </li>
+              <li class="app-sidebar__heading">Forms</li>
+              <li>
+                <a href="forms-controls.html">
+                  <i class="metismenu-icon pe-7s-mouse">
+                  </i>Forms Controls
+                </a>
+              </li>
+              <li>
+                <a href="forms-layouts.html">
+                  <i class="metismenu-icon pe-7s-eyedropper">
+                  </i>Forms Layouts
+                </a>
+              </li>
+              <li>
+                <a href="forms-validation.html">
+                  <i class="metismenu-icon pe-7s-pendrive">
+                  </i>Forms Validation
+                </a>
+              </li>
+              <li class="app-sidebar__heading">Charts</li>
+              <li>
+                <a href="charts-chartjs.html">
+                  <i class="metismenu-icon pe-7s-graph2">
+                  </i>Charts
+                </a>
+                 <ul id="removedCharts" class="list-group">
+                   <!-- List to hold removed cards -->
+                 </ul>
+              </li>
+              <li class="app-sidebar__heading">PRO Version</li>
+              <li>
+                <a href="https://dashboardpack.com/theme-details/architectui-dashboard-html-pro/" target="_blank">
+                  <i class="metismenu-icon pe-7s-graph2">
+                  </i>
+                  Upgrade to PRO
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="app-main__outer">
+        <div class="app-main__inner">
+          <div class="app-page-title">
+            <div class="page-title-wrapper">
+              <div class="page-title-heading">
+                <div class="page-title-icon">
+                  <i class="pe-7s-car icon-gradient bg-mean-fruit">
+                  </i>
+                </div>
+                <div>Analytics Dashboard
+                  <div class="page-title-subheading">This is an example dashboard created using build-in elements and
+                    components.
+                  </div>
+                </div>
+              </div>
+              <div class="page-title-actions">
+                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
+                  class="btn-shadow mr-3 btn btn-dark">
+                  <i class="fa fa-star"></i>
+                </button>
+                <div class="d-inline-block dropdown">
+                  <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    class="btn-shadow dropdown-toggle btn btn-info">
+                    <span class="btn-icon-wrapper pr-2 opacity-7">
+                      <i class="fa fa-business-time fa-w-20"></i>
+                    </span>
+                    Buttons
+                  </button>
+                  <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                        <a href="javascript:void(0);" class="nav-link">
+                          <i class="nav-link-icon lnr-inbox"></i>
+                          <span>
+                            Inbox
+                          </span>
+                          <div class="ml-auto badge badge-pill badge-secondary">86</div>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="javascript:void(0);" class="nav-link">
+                          <i class="nav-link-icon lnr-book"></i>
+                          <span>
+                            Book
+                          </span>
+                          <div class="ml-auto badge badge-pill badge-danger">5</div>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="javascript:void(0);" class="nav-link">
+                          <i class="nav-link-icon lnr-picture"></i>
+                          <span>
+                            Picture
+                          </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a disabled href="javascript:void(0);" class="nav-link disabled">
+                          <i class="nav-link-icon lnr-file-empty"></i>
+                          <span>
+                            File Disabled
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 p-0">
+            <div class="container-fluid p-3">
+              <div class="row vh-200">
+
+
+                <div class="col-lg-3 col-sm-12 col-md-12 ">
+
+
+
+                  <div class="">
+
+                    <div class="selected-filters">
+                      <div class="card-body">
+
+                        <div class="row ">
+                          <div class="col text-center">
+                            <img
+                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTpTjfJmUGSn1bCD34lRtGUZHEQ-86D9o1Yp5Z-Av8Wu15Ag4jPvCvtJqglBz7J-4u7rQ&usqp=CAU"
+                              alt="" class="profile-img">
+                          </div>
+                          <div class="col">
+                            <h2>Hello, John</h2>
+
+                            Email: john.doe@example.com
+                          </div>
+
+                        </div>
+
+
+                        <br>
+                      </div>
+                      <div id="selectedFilters"></div>
+
+                    </div>
+                    <div id="dynamicForm">
+
+
+                      <form id="filtersForm" onsubmit="getSelectedFields(); return false;">
+                        <div class="form-group card" id="CustomerCode">
+
+                          <label for="CustomerCodeSelect">Customer Code:</label>
+                          <input type="text" id="CustomerCodeSelect" class="form-control">
+                          <button class="btn btn-danger remove-button" onclick="removeCardFilters('CustomerCode')">
+                            <i class="bi bi-x"></i>
+                          </button>
+                        </div>
+                        <div class="form-group card" id="Status">
+                          <label for="statusSelect">Status:</label>
+                          <select id="statusSelect" class="form-select">
+                            <option value="all">All</option>
+                            <option value="paid">Paid</option>
+                            <option value="pending">Pending</option>
+                          </select>
+                          <button class="btn btn-danger remove-button" onclick="removeCardFilters('Status')">
+                            <i class="bi bi-x"></i>
+                          </button>
+                        </div>
+
+                        <div class="form-group card" id="Date">
+                          <label>Date</label>
+                          <div class="form-row">
+                            <div class="col">
+                              <label for="fromDate">From:</label>
+                              <input type="date" id="fromDate" class="form-select mb-2" name="fromDate" />
+                            </div>
+                            <div class="col">
+                              <label for="toDate">To:</label>
+                              <input type="date" id="toDate" class="form-select" name="toDate" />
+                            </div>
+                          </div>
+                          <button class="btn btn-danger remove-button" onclick="removeCardFilters('Date')">
+                            <i class="bi bi-x"></i>
+                          </button>
+                        </div>
+                        <div class="form-group card" id="PaymentMode">
+                          <label for="paymentModeSelect">Payment Mode:</label>
+                          <select id="paymentModeSelect" class="form-select" name="paymentMode">
+                            <option value="all">All</option>
+                            <option value="creditCard">Credit Card</option>
+                            <option value="debitCard">Debit Card</option>
+                            <option value="netBanking">Net Banking</option>
+
+                          </select>
+                          <button class="btn btn-danger remove-button" onclick="removeCardFilters('PaymentMode')">
+                            <i class="bi bi-x"></i>
+                          </button>
+
+
+
+                        </div>
+                        <div class="form-group card" id="DebitAccountNo">
+                          <label for="DebitAccountNoSelect">Debit Account No:</label>
+                          <select class="form-control" id="debitAccDropdown" name="debitAccountNumber">
+                            <option value="1234567890">1234567890</option>
+                            <option value="1876543210">1876543210</option>
+                          </select>
+                          <button class="btn btn-danger remove-button" onclick="removeCardFilters('DebitAccountNo')">
+                            <i class="bi bi-x"></i>
+                          </button>
+                        </div>
+                        <div class="form-group card" id="BeneficiaryName">
+                          <label for="BeneficiaryNameSelect">Beneficiary Name:</label>
+                          <select id="BeneficiaryNameSelect" class="form-select">
+                            <option value="XYZ LTD">XYZ LTD</option>
+                            <option value="ABC Company">ABC Company</option>
+                            <option value="DEF Corporation">DEF Corporation</option>
+                            <!-- Add more options as needed -->
+                          </select>
+                          <button class="btn btn-danger remove-button" onclick="removeCardFilters('BeneficiaryName')">
+                            <i class="bi bi-x"></i>
+                          </button>
+                        </div>
+                        <div class="form-group card" id="SelectBank">
+                          <label for="selectBankSelect">Select Bank:</label>
+                          <select id="selectBankSelect" class="form-select" name="bank">
+                            <option value="all">All</option>
+                            <option value="icici">ICICI Bank</option>
+                            <option value="sbi">SBI Bank</option>
+                            <option value="hdfc">HDFC Bank</option>
+                          </select>
+                          <button class="btn btn-danger remove-button" onclick="removeCardFilters('SelectBank')">
+                            <i class="bi bi-x"></i>
+                          </button>
+                        </div>
+                        <div class="form-group card" id="CreditAccountNo">
+                          <label for="creditAccountNoSelect">Credit Account No:</label>
+                          <select id="creditAccountNoSelect" class="form-select">
+                            <option value="all">All</option>
+                            <option value="icici">ICICI Bank</option>
+                            <option value="sbi">SBI Bank</option>
+                            <option value="hdfc">HDFC Bank</option>
+                          </select>
+                          <button class="btn btn-danger remove-button" onclick="removeCardFilters('CreditAccountNo')">
+                            <i class="bi bi-x"></i>
+                          </button>
+                        </div>
+                        <div class="form-group card" id="BankState">
+                          <label for="bankStateSelect">Bank State:</label>
+                          <select id="bankStateSelect" class="form-select">
+                            <option value="all">All</option>
+                            <option value="maharastra">Maharashtra</option>
+                            <option value="punjab">Punjab</option>
+                            <option value="up">Uttar Pradesh</option>
+                          </select>
+                          <button class="btn btn-danger remove-button" onclick="removeCardFilters('BankState')">
+                            <i class="bi bi-x"></i>
+                          </button>
+                        </div>
+                        <script>
+
+                          function getSelectedFields() {
+                            var selectedFields = [];
+                            var checkboxes = document.querySelectorAll('input[name="filterId"]:checked');
+                            checkboxes.forEach(function (checkbox) {
+                              var filterIdValue = checkbox.value;
+                              selectedFields.push(filterIdValue);
+                            });
+
+                            var selectedFiltersDiv = document.getElementById("selectedFilters");
+                            selectedFiltersDiv.innerHTML = ""; // Clear existing content
+
+                            selectedFields.forEach(function (filterId) {
+                              var formGroupId = getFormGroupId(filterId);
+                              if (formGroupId && document.getElementById(formGroupId)) {
+                                var formGroupClone = document.getElementById(formGroupId).cloneNode(true);
+                                formGroupClone.style.display = "block";
+                                selectedFiltersDiv.appendChild(formGroupClone);
+                              }
+                            });
+
+                            // Apply filters
+                            applyFilters(selectedFields);
+                          }
+
+                          function applyFilters(selectedFilterIds) {
+                            // Send filter IDs to the appropriate URLs
+                            sendFilterIdsToUrl(selectedFilterIds);
+                            console.log("Filters applied!");
+                          }
+
+                          function sendFilterIdsToUrl(selectedFilterIds) {
+                            // Send selected filter IDs to the server
+                            fetch('http://localhost:8080/Test1/FilterSelect', {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json'
+                              },
+                              body: JSON.stringify({
+                                filterIds: selectedFilterIds
+                              })
+                            })
+                              .then(response => {
+                                if (!response.ok) {
+                                  throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                              })
+                              .then(data => {
+                                console.log('Response received from server:', data);
+                              })
+                              .catch(error => {
+                                console.error('There was a problem with your fetch operation:', error);
+                              });
+                          }
+
+                          function removeCardFilters(filterId) {
+                            console.log("Remove button clicked!");
+
+                            // Remove the card with the given filter ID from the selected filters
+                            var cardToRemove = document.querySelector(`#selectedFilters #${filterId}`);
+                            if (cardToRemove) {
+                              cardToRemove.remove();
+                            }
+
+                            // Uncheck the corresponding checkbox
+                            var checkbox = document.querySelector(`input[name="filterId"][value="${getNumericalFilterId(filterId)}"]`);
+                            if (checkbox) {
+                              checkbox.checked = false;
+                            }
+
+                            // Send filter ID to be removed to the server
+                            var numericalFilterIdToRemove = getNumericalFilterId(filterId);
+                            if (!numericalFilterIdToRemove) {
+                              console.error('Unable to find numerical filter ID for:', filterId);
+                              return;
+                            }
+
+                            fetch('http://localhost:8080/Test1/FilterDeSelect', {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json'
+                              },
+                              body: JSON.stringify({
+                                filterId: numericalFilterIdToRemove
+                              })
+                            })
+                              .then(response => {
+                                if (!response.ok) {
+                                  throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                              })
+                              .then(data => {
+                                console.log('Filter removed successfully:', data);
+                              })
+                              .catch(error => {
+                                console.error('There was a problem with removing the filter:', error);
+                              });
+                          }
+
+                          function getNumericalFilterId(filterId) {
+                            var filterIdMap = {
+                              "CustomerCode": "1",
+                              "Status": "2",
+                              "Date": "3",
+                              "PaymentMode": "4",
+                              "DebitAccountNo": "5",
+                              "BeneficiaryName": "6",
+                              "SelectBank": "7",
+                              "CreditAccountNo": "8",
+                              "BankState": "9"
+                            };
+                            return filterIdMap[filterId];
+                          }
+
+                          function getFormGroupId(filterId) {
+                            switch (filterId) {
+                              case "1":
+                                return "CustomerCode";
+                              case "2":
+                                return "Status";
+                              case "3":
+                                return "Date";
+                              case "4":
+                                return "PaymentMode";
+                              case "5":
+                                return "DebitAccountNo";
+                              case "6":
+                                return "BeneficiaryName";
+                              case "7":
+                                return "SelectBank";
+                              case "8":
+                                return "CreditAccountNo";
+                              case "9":
+                                return "BankState";
+                              default:
+                                return null;
+                            }
+                          }
+
+                        </script>
+                        <!-- <script>
+                          function removeCardFilters(button) {
+                            // Find the parent card element and remove it
+                            var card = button.closest('.card');
+                            if (card) {
+                              card.remove();
+                            }
+                          }
+                        </script> -->
+                        <!-- Add more form groups for other filterIds -->
+                        <button type="submit" class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-9 col-sm-12 col-md-12 ">
+                  <!-- Main content -->
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-lg-4 col-sm-12 col-md-12">
+                        <div class="maincard bg-midnight-bloom text-white position-relative"
+                          onmouseover="showButton(this)" onmouseout="hideButton(this)" data-widget-id="1">
+                          <div class="card-body text-center">
+                            <h1>Highest Transaction</h1>
+                            <div class="row mt-3">
+                              <div class="col align-self-center">
+                                <h4 id="highestTransactionAmount"></h4>
+                              </div>
+                              <div class="col">
+                                <div class="d-flex justify-content-center mt-3">
+                                  <div class="circular-progress" id="highestTransactionProgressBar">
+						              <span class="progress-value">0%</span>
+					              </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="position-absolute top-0 start-0 translate-middle mt-2 ms-2" style="display: none;"
+                            onclick="removeCard(this.parentElement)">
+                            <button class="btn btn-danger"> <i class="bi bi-x"></i></button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-4 col-sm-12 col-md-12">
+                        <div class="maincard bg-grow-early text-white position-relative" onmouseover="showButton(this)"
+                          onmouseout="hideButton(this)" data-widget-id="2">
+                          <div class="card-body text-center">
+                            <h1>Average Transaction</h1>
+                            <div class="row mt-3">
+                              <div class="col align-self-center">
+                                <h4 id="avgTransactionAmount"> </h4>
+                              </div>
+                              <div class="col">
+                                <div class="d-flex justify-content-center mt-3">
+                                  <div class="circular-progress" id="avgTransactionProgressBar">
+						              <span class="progress-value">0%</span>
+						           </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="position-absolute top-0 start-0 translate-middle mt-2 ms-2" style="display: none;"
+                            onclick="removeCard(this.parentElement)">
+                            <button class="btn btn-danger"> <i class="bi bi-x"></i></button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-4 col-sm-12 col-md-12">
+                        <div class="maincard bg-premium-dark text-white position-relative"
+                          onmouseover="showButton(this)" onmouseout="hideButton(this)" data-widget-id="3">
+                          <div class="card-body text-center">
+                            <h1>Number of Transaction</h1>
+                            <div class="row mt-3">
+                              <div class="col align-self-center">
+                                <h4 id="totalTransactions"></h4>
+
+                              </div>
+                              <div class="col">
+                                <div class="d-flex justify-content-center mt-3">
+                                  <div class="circular-progress" id="totalTransactionsProgressBar">
+						              <span class="progress-value">0%</span>
+						          </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="position-absolute top-0 start-0 translate-middle mt-2 ms-2" style="display: none;"
+                            onclick="removeCard(this.parentElement)">
+                            <button class="btn btn-danger"> <i class="bi bi-x"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <script>
+	                    fetch('http://localhost:8080/Test1/TrxData')
+		                    .then(response => response.json())
+		                    .then(data => {
+		                      const highestTransaction = data.highestTransactionAmount;
+		                      const avgTransaction = data.avgTransactionAmount;
+		                      const totalTransactions = data.totalTransactions;
+		
+		                      // Populate HTML elements with data
+		                      document.getElementById('highestTransactionAmount').innerText = `₹${highestTransaction.toLocaleString()}`;
+		                      document.getElementById('avgTransactionAmount').innerText = `₹${avgTransaction.toLocaleString()}`;
+		                      document.getElementById('totalTransactions').innerText = totalTransactions.toLocaleString();
+		
+		                      // Calculate percentages
+		                      const highestTransactionPercentage = (highestTransaction / 300000000) * 100;
+		                      const avgTransactionPercentage = (avgTransaction / 500000) * 100;
+		                      const totalTransactionsPercentage = (totalTransactions / 3000) * 100;
+		
+		                      // Set progress bar animations
+		                      setProgressBarAnimation('highestTransactionProgressBar', highestTransactionPercentage, 1500);
+		                      setProgressBarAnimation('avgTransactionProgressBar', avgTransactionPercentage, 1500);
+		                      setProgressBarAnimation('totalTransactionsProgressBar', totalTransactionsPercentage, 1500);
+		                    })
+		                    .catch(error => console.error('Error:', error));
+		
+		                  function setProgressBarAnimation(id, percentage, duration) {
+		                    const circularProgress = document.getElementById(id);
+		                    const progressValue = circularProgress.querySelector('.progress-value');
+		
+		                    let startValue = 0;
+		                    const endValue = Math.min(percentage, 100);
+		
+		                    const interval = duration / endValue;
+		
+		                    const progress = setInterval(() => {
+		                      startValue++;
+		
+		                      progressValue.textContent = `${startValue}%`;
+		                      circularProgress.style.background = `conic-gradient(#049dff ${startValue * 3.6}deg, #ededed 0deg)`;
+		
+		                      if (startValue >= endValue) {
+		                        clearInterval(progress);
+		                      }
+		                    }, interval);
+		                  }
+                    </script>
+                  </div>
+
+                  <script>
+	               // JavaScript code to handle card removal and reopening
+	                  function showButton(card) {
+	                    var removeButtonContainer = card.querySelector(".position-absolute");
+	                    if (removeButtonContainer) {
+	                      removeButtonContainer.style.display = "block";
+	                    }
+	                  }
+	                  
+	                  function hideButton(card) {
+	                    var removeButtonContainer = card.querySelector(".position-absolute");
+	                    if (removeButtonContainer) {
+	                      removeButtonContainer.style.display = "none";
+	                    }
+	                  }
+	                  
+	                  function removeCard(button) {
+	                    var card = button.parentElement;
+	                    card.remove();
+	                  
+	                    // Update column classes based on the remaining cards
+	                    var remainingCards = document.querySelectorAll('.maincard');
+	                    if (remainingCards.length === 1) {
+	                      remainingCards.forEach(function (card) {
+	                        card.parentElement.classList.remove('col-lg-4');
+	                        card.parentElement.classList.add('col-lg-12');
+	                      });
+	                    } else if (remainingCards.length === 2) {
+	                      remainingCards.forEach(function (card) {
+	                        card.parentElement.classList.remove('col-lg-4');
+	                        card.parentElement.classList.add('col-lg-6');
+	                      });
+	                    }
+	                  
+	                    // Create a reopen button in the list to reopen this card
+	                    
+	                    var removedCardsList = document.getElementById("removedCards");
+	                    var li = document.createElement("li");
+	                    li.classList.add("list-group-item");
+	                    var reopenButton = document.createElement("button");
+	                    reopenButton.textContent = "Reopen " + card.querySelector("h1").textContent + " Card";
+	                    reopenButton.classList.add("btn", "btn-success");
+	                    reopenButton.onclick = function () {
+	                      reopenCard(card);
+	                      removedCardsList.removeChild(li);
+	                    };
+	                    li.appendChild(reopenButton);
+	                    removedCardsList.appendChild(li);
+	                  }
+	                  
+	                  function reopenCard(card) {
+	                    console.log("Reopening card...");
+	                    var originalParent = document.querySelector('.container .row');
+	                    console.log("Original parent:", originalParent);
+	                    
+	                    // Ensure the card and its parent elements are correctly selected
+	                    console.log("Card:", card);
+	                    console.log("Parent of Card:", card.parentElement);
+	                    
+	                    // Add the card back to its original parent
+	                    originalParent.appendChild(card);
+	                    
+	                  
+	                  
+	                    var remainingCards = originalParent.querySelectorAll('.maincard');
+	                    console.log("Remaining cards:", remainingCards.length);
+	                    
+	                    // Adjust column classes based on the number of remaining cards
+	                    if (remainingCards.length === 1) {
+	                      remainingCards.forEach(function (card) {
+	                        card.parentElement.classList.remove('col-lg-6', 'col-lg-4');
+	                        card.parentElement.classList.add('col-lg-12');
+	                      });
+	                    } else if (remainingCards.length === 2) {
+	                      remainingCards.forEach(function (card) {
+	                        card.parentElement.classList.remove('col-lg-12', 'col-lg-4');
+	                        card.parentElement.classList.add('col-lg-6');
+	                      });
+	                    } else if (remainingCards.length >= 3) {
+	                      remainingCards.forEach(function (card) {
+	                        card.parentElement.classList.remove('col-lg-12', 'col-lg-6');
+	                        card.parentElement.classList.add('col-lg-4');
+	                      });
+	                    }
+	                  }
+                  </script>
+
+
+
+                  <div class="row" id="charts">
+                    <div class="col-lg-6 col-sm-12 col-md-12" >
+                      <div class="card mt-3" style="height:92%;"  >
+						
+                      	<div class="text-center mt-3">
+                        <label for="selectYearDropdown">Year:</label>
+                        <select class="form-control" id="selectYearDropdown" name="Year">
+
+                        </select>
+                      </div>
+                      <br>
+                      
+                      <a id="backButton" class="mt-3"
+                        style="cursor: pointer; position: absolute; top: 10px; right: 10px;">Back</a>
+
+                      <a id="tableButton" class="mt-3"
+                        style="cursor: pointer; position: absolute; top: 10px; left: 10px; width:2.5rem;">Table</a>
+
+                      <div id="tableContainer">
+                        <div id="tableContent">
+                          <h3 class="text-center">Table Data</h3>
+                          <table id="dataTable" class="table table-bordered">
+                            <!-- Table data will be dynamically added here -->
+                          </table>
+                        </div>
+                      </div>
+
+
+
+                      <!-- Add AmCharts library -->
+                      <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+                      <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+                      <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+
+                      <div id="barChart" style="height:80%"></div>
+                      <!-- Hidden input field to store the selected year -->
+                      <input type="hidden" id="selectedYear">
+                      <!-- Hidden input field to store the selected month -->
+                      <input type="hidden" id="selectedMonth">
+                      <!-- Hidden input field to store the current level of data -->
+                      <input type="hidden" id="currentLevel" value="yearly">
+
+
+
+
+                      <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                          var chartData = null; // Variable to store chart data
+
+                          // Function to fetch years and update dropdown
+                          function fetchYears() {
+                            fetch('http://localhost:8080/Test1/Years')
+                              .then(response => response.json())
+                              .then(data => {
+                                const selectElement = document.getElementById('selectYearDropdown');
+                                data.years.forEach(year => {
+                                  const option = document.createElement('option');
+                                  option.value = year;
+                                  option.textContent = year;
+                                  selectElement.appendChild(option);
+                                });
+
+                                // Add event listener to dropdown for fetching data on change
+                                selectElement.addEventListener('change', function (event) {
+                                  const selectedYear = event.target.value;
+                                  document.getElementById("selectedYear").value = selectedYear;
+                                  fetchYearlyTotalAmount(selectedYear);
+                                });
+
+                                // Automatically select the first year in the dropdown
+                                const firstYear = data.years[0];
+                                selectElement.value = firstYear;
+
+                                // Fetch and update the yearly total amount for the first year
+                                fetchYearlyTotalAmount(firstYear);
+                              })
+                              .catch(error => console.error('Error:', error));
+                          }
+
+                          // Call the fetchYears function on page load
+                          fetchYears();
+
+                          //Function to fetch yearly total amounts from servlet and update the chart
+                          function fetchYearlyTotalAmount(selectedYear) {
+                            fetch('http://localhost:8080/Test1/TotalAmount?year=' + encodeURIComponent(selectedYear))
+                              .then(response => {
+                                if (!response.ok) {
+                                  throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                              })
+                              .then(data => {
+                                chartData = data; // Store chart data
+                                updateChart(data);
+                                // Hide back button initially
+                                document.getElementById("backButton").style.display = "none";
+                                // Update current level of data
+                                document.getElementById("currentLevel").value = "yearly";
+                              })
+                              .catch(error => {
+                                console.error('Error fetching yearly total amounts:', error);
+                              });
+                          }
+
+                          // Function to update the chart with yearly total amounts
+                          function updateChart(data) {
+                            am4core.ready(function () {
+                              // Create chart instance
+                              var chart = am4core.create("barChart", am4charts.XYChart);
+
+                              // Add data
+                              chart.data = data;
+
+                              // Create axes
+                              var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                              categoryAxis.dataFields.category = "Year";
+                              categoryAxis.renderer.grid.template.location = 0;
+                              categoryAxis.renderer.minGridDistance = 30;
+
+                              var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+                              // Create series
+                              var series = chart.series.push(new am4charts.ColumnSeries());
+                              series.dataFields.valueY = "TotalAmount";
+                              series.dataFields.categoryX = "Year";
+                              series.name = "Total Amount";
+                              series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                              series.columns.template.fillOpacity = .8;
+
+                              var columnTemplate = series.columns.template;
+                              columnTemplate.strokeWidth = 2;
+                              columnTemplate.strokeOpacity = 1;
+
+                              // Add event listener to columns/bars for drilling down to monthly data
+                              series.columns.template.events.on("hit", function (ev) {
+                                var selectedYear = ev.target.dataItem.dataContext.Year;
+                                // Update the selected year
+                                document.getElementById("selectedYear").value = selectedYear;
+                                fetchMonthlyTotalAmount(selectedYear);
+                              });
+
+                              chart.cursor = new am4charts.XYCursor();
+                            });
+                          }
+
+                          // Function to render table with chart data
+                          function renderTable() {
+                            var table = document.getElementById("dataTable");
+                            table.innerHTML = ""; // Clear previous table content
+
+                            // Create table header
+                            var headerRow = table.insertRow();
+                            for (var key in chartData[0]) {
+                              var headerCell = headerRow.insertCell();
+                              headerCell.textContent = key;
+                            }
+
+                            // Create table rows
+                            chartData.forEach(function (item) {
+                              var row = table.insertRow();
+                              for (var key in item) {
+                                var cell = row.insertCell();
+                                cell.textContent = item[key];
+                              }
+                            });
+                          }
+
+                          // Event listener for back button click
+                          document.getElementById("backButton").addEventListener("click", function () {
+                            var currentLevel = document.getElementById("currentLevel").value;
+                            if (currentLevel === "daily") {
+                              var selectedYear = document.getElementById("selectedYear").value;
+                              var selectedMonth = null; // Nullify selected month
+                              fetchMonthlyTotalAmount(selectedYear);
+                              // Hide back button when viewing monthly total amounts
+                              document.getElementById("backButton").style.display = "block";
+                            } else if (currentLevel === "monthly") {
+                              var selectedYear = document.getElementById("selectedYear").value;
+                              fetchYearlyTotalAmount(selectedYear);
+                              // Hide back button when viewing yearly total amounts
+                              document.getElementById("backButton").style.display = "none";
+                            }
+                          });
+
+                          // Event listener for table button click
+                          document.getElementById("tableButton").addEventListener("click", function () {
+                            renderTable();
+                            document.getElementById("tableContainer").style.display = "block";
+                          });
+
+                          // Event listener for clicking outside the table to close it
+                          document.body.addEventListener("click", function (event) {
+                            if (!event.target.closest("#tableContent") && !event.target.closest("#tableButton")) {
+                              document.getElementById("tableContainer").style.display = "none";
+                            }
+                          });
+
+                          // Function to fetch monthly total amounts based on selected year
+                          function fetchMonthlyTotalAmount(selectedYear) {
+                            fetch('http://localhost:8080/Test1/MonthlyTotalAmount?selectedYear=' + encodeURIComponent(selectedYear))
+                              .then(response => {
+                                if (!response.ok) {
+                                  throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                              })
+                              .then(data => {
+                                chartData = data; // Store chart data
+                                updateMonthlyChart(data);
+                                // Show back button and hide month button
+                                document.getElementById("backButton").style.display = "block";
+                                // Update current level of data
+                                document.getElementById("currentLevel").value = "monthly";
+                              })
+                              .catch(error => {
+                                console.error('Error fetching monthly total amounts:', error);
+                              });
+                          }
+
+                          // Function to update the chart with monthly total amounts
+                          function updateMonthlyChart(data) {
+                            am4core.ready(function () {
+                              // Clear existing chart
+                              am4core.disposeAllCharts();
+
+                              // Create chart instance
+                              var chart = am4core.create("barChart", am4charts.XYChart);
+
+                              // Add data
+                              chart.data = data;
+
+                              // Create axes
+                              var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                              categoryAxis.dataFields.category = "Month";
+                              categoryAxis.renderer.grid.template.location = 0;
+                              categoryAxis.renderer.minGridDistance = 30;
+
+                              var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+                              // Create series
+                              var series = chart.series.push(new am4charts.ColumnSeries());
+                              series.dataFields.valueY = "TotalAmount";
+                              series.dataFields.categoryX = "Month";
+                              series.name = "Total Amount";
+                              series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                              series.columns.template.fillOpacity = .8;
+
+                              var columnTemplate = series.columns.template;
+                              columnTemplate.strokeWidth = 2;
+                              columnTemplate.strokeOpacity = 1;
+
+                              // Add event listener to columns/bars for drilling down to daily data
+                              series.columns.template.events.on("hit", function (ev) {
+                                var selectedYear = document.getElementById("selectedYear").value;
+                                var selectedMonth = ev.target.dataItem.categoryX;
+                                document.getElementById("selectedMonth").value = selectedMonth; // Store selected month
+                                fetchDailyTotalAmount(selectedYear, selectedMonth);
+                              });
+
+                              chart.cursor = new am4charts.XYCursor();
+                            });
+                          }
+
+                          // Function to fetch daily total amounts based on selected year and month
+                          function fetchDailyTotalAmount(selectedYear, selectedMonth) {
+                            fetch('http://localhost:8080/Test1/DailyTotalAmount?selectedYear=' + encodeURIComponent(selectedYear) + '&selectedMonth=' + encodeURIComponent(selectedMonth))
+                              .then(response => {
+                                if (!response.ok) {
+                                  throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                              })
+                              .then(data => {
+                                chartData = data; // Store chart data
+                                updateDailyChart(data);
+                                // Show back button
+                                document.getElementById("backButton").style.display = "block";
+                                // Update current level of data
+                                document.getElementById("currentLevel").value = "daily";
+                              })
+                              .catch(error => {
+                                console.error('Error fetching daily total amounts:', error);
+                              });
+                          }
+
+                          // Function to update the chart with daily total amounts
+                          function updateDailyChart(data) {
+                            am4core.ready(function () {
+                              // Clear existing chart
+                              am4core.disposeAllCharts();
+
+                              // Create chart instance
+                              var chart = am4core.create("barChart", am4charts.XYChart);
+
+                              // Add data
+                              chart.data = data;
+
+                              // Create axes
+                              var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                              categoryAxis.dataFields.category = "Day";
+                              categoryAxis.renderer.grid.template.location = 0;
+                              categoryAxis.renderer.minGridDistance = 30;
+
+                              var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+                              // Create series
+                              var series = chart.series.push(new am4charts.ColumnSeries());
+                              series.dataFields.valueY = "TotalAmount";
+                              series.dataFields.categoryX = "Day";
+                              series.name = "Total Amount";
+                              series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                              series.columns.template.fillOpacity = .8;
+
+                              var columnTemplate = series.columns.template;
+                              columnTemplate.strokeWidth = 2;
+                              columnTemplate.strokeOpacity = 1;
+
+                              chart.cursor = new am4charts.XYCursor();
+                            });
+                          }
+
+                        });
+
+                      </script>
+                      	
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-md-12  chart-card" >
+						<div class="card mt-3" style="height:92%;" >
+						    
+							<div id="container"></div>
+		                      <!-- Resources -->
+		                      <script>
+		                        anychart.onDocumentReady(function () {
+		                          // Make AJAX request to fetch data from servlet
+		                          var xhr = new XMLHttpRequest();
+		                          xhr.open('GET', 'http://localhost:8080/Test1/TotalAmountByCurrency', true);
+		                          xhr.onreadystatechange = function () {
+		                            if (xhr.readyState === 4 && xhr.status === 200) {
+		                              var data = JSON.parse(xhr.responseText);
+		
+		                              // Process data and create pie chart
+		                              var chartData = [];
+		                              for (var i = 0; i < data.length; i++) {
+		                                chartData.push([data[i].Currency, data[i].TotalAmount]);
+		                              }
+		
+		                              var chart = anychart.pie3d(chartData);
+		
+		                              // Set chart title
+		                              chart.title('Total Amount by Currency');
+		
+		                              // Set chart radius
+		                              chart.radius('43%');
+		
+		                              // Set container id for the chart
+		                              chart.container('container');
+		
+		                              // Draw chart
+		                              chart.draw();
+		                            }
+		                          };
+		                          xhr.send();
+		                        });
+		                      </script>
+						</div>
+                    </div>
+                     
+                  </div>
+                 
+                  
+                  <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-md-12  ">
+
+                      <div class="container">
+
+                        <div class="card-body">
+
+
+                          <!-- Filter Dropdowns -->
+                          <div class="row">
+                            <div class="col-md-4">
+                              <div class="">
+                                <label for="paymentFilter">Filter:</label>
+                                <select id="paymentFilter" class="form-control">
+                                  <option value="last_10">Last 10 Payments</option>
+                                  <option value="last_50">Last 50 Payments</option>
+                                  <option value="last_100">Last 100 Payments</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <label for="timeFilter">Time Period:</label>
+                                <select id="timeFilter" class="form-control">
+                                  <option value="day">Day</option>
+                                  <option value="week">Week</option>
+                                  <option value="month">Month</option>
+                                  <option value="year">Year</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <label for="amountFilter">Amount Range:</label>
+                                <select id="amountFilter" class="form-control">
+                                  <option value="cr">CR</option>
+                                  <option value="lakh">Lakh</option>
+                                  <option value="thousand">Thousand</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+                          <br>
+                          <!-- Download Report Button -->
+                          <div class="row justify-content-end">
+                            <button id="downloadReportBtn" class="btn btn-primary">Download Report</button>
+                          </div>
+                        </div>
+
+                        <br>
+                        <!-- Table -->
+                        <div id="userCard" class="card" onmouseover="showRemoveButton(this)" onmouseout="hideRemoveButton(this)">
+                          <button class="btn btn-danger remove-user-card position-absolute top-0 end-0 mt-2 me-2" onclick="removeTable('userCard', this)" style="display:none;"><i class="bi bi-x"></i></button>
+                          <div class="card-body">
+                            <h2 class="card-title">User List</h2>
+                            <div class="table-responsive">
+                              <table id="userTable" class="table table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>Customer Code</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Status</th>
+                                    <th>Payment Mode</th>
+                                    <th>Debit Account</th>
+                                    <th>Beneficiary Name</th>
+                                    <th>Bank</th>
+                                    <th>Credit Account</th>
+                                    <th>State</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <!-- Table body will be populated dynamically via JavaScript -->
+                                </tbody>
+                              </table>
+                              <script>
+                                // Fetch data from servlet and populate the table
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('GET', 'http://localhost:8080/Test1/UserData', true);
+                                xhr.onreadystatechange = function () {
+                                  if (xhr.readyState === 4 && xhr.status === 200) {
+                                    var data = JSON.parse(xhr.responseText);
+                                    var tableBody = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+
+                                    // Clear existing table rows
+                                    tableBody.innerHTML = '';
+
+                                    // Populate table with data
+                                    for (var i = 0; i < data.length; i++) {
+                                      var row = tableBody.insertRow();
+                                      row.insertCell(0).innerText = data[i].customercode;
+                                      row.insertCell(1).innerText = data[i].start_date;
+                                      row.insertCell(2).innerText = data[i].end_date;
+                                      row.insertCell(3).innerText = data[i].status;
+                                      row.insertCell(4).innerText = data[i].payment_mode;
+                                      row.insertCell(5).innerText = data[i].Debit_acc;
+                                      row.insertCell(6).innerText = data[i].benf_name;
+                                      row.insertCell(7).innerText = data[i].bank;
+                                      row.insertCell(8).innerText = data[i].credit_acc;
+                                      row.insertCell(9).innerText = data[i].state;
+                                    }
+                                  }
+                                };
+                                xhr.send();
+                              </script>
+                            </div>
+
+                          </div>
+                        </div>
+						<script>
+							function showRemoveButton(card) {
+							    var removeBtn = card.querySelector('.remove-user-card');
+							    removeBtn.style.display = 'block';
+							}
+	
+							function hideRemoveButton(card) {
+							    var removeBtn = card.querySelector('.remove-user-card');
+							    removeBtn.style.display = 'none';
+							}
+
+						
+							function removeTable(cardId, btn) {
+							    var card = document.getElementById(cardId);
+							    if (!card) {
+							        console.error("Card with ID " + cardId + " not found");
+							        return;
+							    }
+							    card.remove();
+							    
+							    // Create a button for the removed card
+							    var removedButton = document.createElement('button');
+							    removedButton.classList.add('btn', 'btn-info', 'mb-2', 'mr-2', 'reopen-btn');
+							    removedButton.innerText = 'Reopen Card';
+							    removedButton.onclick = function() {
+							        // Move card back to the original position
+							        var downloadButtonRow = document.querySelector('.justify-content-end');
+							        if (!downloadButtonRow) {
+							            console.error("Download button row not found");
+							            return;
+							        }
+							        var parentRow = downloadButtonRow.closest('.row');
+							        if (!parentRow) {
+							            console.error("Parent row not found");
+							            return;
+							        }
+							        // Create a new column div for the card
+							        var colDiv = document.createElement('div');
+							        colDiv.classList.add('col-md-12', 'mt-4'); // Bootstrap classes for column and top margin
+							        colDiv.appendChild(card);
+							        // Insert the column div after the download button row
+							        parentRow.parentNode.insertBefore(colDiv, parentRow.nextSibling);
+							        // Remove the button from the removedTable
+							        removedButton.remove();
+							    };
+							    // Append the button to the removedTable
+							    document.getElementById('removedTable').appendChild(removedButton);
+							}
+						</script>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+          </div>
+          <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+        </div>
+      </div>
+      <script type="text/javascript"
+        src="https://demo.dashboardpack.com/architectui-html-free/assets/scripts/main.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+</body>
+<script src="https://kit.fontawesome.com/3e5a8c0584.js" crossorigin="anonymous"></script>
+
+</html>

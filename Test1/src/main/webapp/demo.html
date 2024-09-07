@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction Data</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <style>
+    .maincard {
+      height: 200px;
+    }
+
+    .circular-progress {
+      position: relative;
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      background: conic-gradient(#7d2ae8 3.6deg, #ededed 0deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .circular-progress::before {
+      content: "";
+      position: absolute;
+      height: 80px;
+      width: 80px;
+      border-radius: 50%;
+      background-color: #fff;
+    }
+
+    .progress-value {
+      position: relative;
+      font-size: 20px;
+      font-weight: 600;
+      color: #7d2ae8;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-sm-12 col-md-12">
+        <div class="maincard bg-midnight-bloom text-white position-relative" onmouseover="showButton(this)" onmouseout="hideButton(this)">
+          <div class="card-body text-center">
+            <h1>Highest Transaction</h1>
+            <div class="row mt-3">
+              <div class="col align-self-center">
+                <h4 id="highestTransactionAmount"></h4>
+              </div>
+              <div class="col">
+              	<div class="d-flex justify-content-center mt-3">
+               		<div class="circular-progress" id="highestTransactionProgressBar">
+		              <span class="progress-value">0%</span>
+		            </div>
+               </div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="position-absolute top-0 start-0 translate-middle mt-2 ms-2" style="display: none;" onclick="removeCard(this)">
+            <button class="btn btn-danger"> <i class="bi bi-x"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-sm-12 col-md-12">
+        <div class="maincard bg-grow-early text-white position-relative" onmouseover="showButton(this)" onmouseout="hideButton(this)">
+          <div class="card-body text-center">
+            <h1>Average Transaction</h1>
+            <div class="row mt-3">
+              <div class="col align-self-center">
+                <h4 id="avgTransactionAmount"> </h4>
+              </div>
+               <div class="col">
+	               <div class="d-flex justify-content-center mt-3">
+	               		<div class="circular-progress" id="avgTransactionProgressBar">
+			              <span class="progress-value">0%</span>
+			            </div>
+	               </div>
+               </div>
+            </div>
+          </div>
+          <div class="position-absolute top-0 start-0 translate-middle mt-2 ms-2" style="display: none;" onclick="removeCard(this)">
+            <button class="btn btn-danger"> <i class="bi bi-x"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-sm-12 col-md-12">
+        <div class="maincard bg-premium-dark text-white position-relative" onmouseover="showButton(this)" onmouseout="hideButton(this)">
+          <div class="card-body text-center">
+            <h1>Number of Transaction</h1>
+            <div class="row mt-3">
+              <div class="col align-self-center">
+                <h4 id="totalTransactions"></h4>
+              </div>
+              <div class="col">
+	              	<div class="d-flex justify-content-center mt-3">
+	               		<div class="circular-progress" id="totalTransactionsProgressBar">
+			              <span class="progress-value">0%</span>
+			            </div>
+	               </div>
+               </div>
+            </div>
+          </div>
+          <div class="position-absolute top-0 start-0 translate-middle mt-2 ms-2" style="display: none;" onclick="removeCard(this)">
+            <button class="btn btn-danger"> <i class="bi bi-x"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    fetch('http://localhost:8080/Test1/TrxData')
+      .then(response => response.json())
+      .then(data => {
+        const highestTransaction = data.highestTransactionAmount;
+        const avgTransaction = data.avgTransactionAmount;
+        const totalTransactions = data.totalTransactions;
+
+        // Populate HTML elements with data
+        document.getElementById('highestTransactionAmount').innerText = `₹${highestTransaction.toLocaleString()}`;
+        document.getElementById('avgTransactionAmount').innerText = `₹${avgTransaction.toLocaleString()}`;
+        document.getElementById('totalTransactions').innerText = totalTransactions.toLocaleString();
+
+        // Calculate percentages
+        const highestTransactionPercentage = (highestTransaction / 350000000) * 100;
+        const avgTransactionPercentage = (avgTransaction / 500000) * 100;
+        const totalTransactionsPercentage = (totalTransactions / 3000) * 100;
+
+        // Set progress bar animations
+        setProgressBarAnimation('highestTransactionProgressBar', highestTransactionPercentage, 1500);
+        setProgressBarAnimation('avgTransactionProgressBar', avgTransactionPercentage, 1500);
+        setProgressBarAnimation('totalTransactionsProgressBar', totalTransactionsPercentage, 1500);
+      })
+      .catch(error => console.error('Error:', error));
+
+    function setProgressBarAnimation(id, percentage, duration) {
+      const circularProgress = document.getElementById(id);
+      const progressValue = circularProgress.querySelector('.progress-value');
+
+      let startValue = 0;
+      const endValue = Math.min(percentage, 100);
+
+      const interval = duration / endValue;
+
+      const progress = setInterval(() => {
+        startValue++;
+
+        progressValue.textContent = `${startValue}%`;
+        circularProgress.style.background = `conic-gradient(#7d2ae8 ${startValue * 3.6}deg, #ededed 0deg)`;
+
+        if (startValue >= endValue) {
+          clearInterval(progress);
+        }
+      }, interval);
+    }
+  </script>
+</body>
+
+</html>
