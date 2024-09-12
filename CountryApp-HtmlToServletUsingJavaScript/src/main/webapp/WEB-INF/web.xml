@@ -1,0 +1,17 @@
+
+<web-app >
+  <display-name>CountryApp-HtmlToServletUsingJavaScript</display-name>
+  <welcome-file-list>
+    <welcome-file>input.html</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+  	<servlet-name>country</servlet-name>
+  	<servlet-class>com.nt.servlet.GetCapitalServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>country</servlet-name>
+  	<url-pattern>/capitalurl</url-pattern>
+  </servlet-mapping>
+</web-app>
