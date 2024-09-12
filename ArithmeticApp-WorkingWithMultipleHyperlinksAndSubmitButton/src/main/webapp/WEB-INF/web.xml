@@ -1,0 +1,18 @@
+<web-app >
+  <display-name>ArithmeticApp-WorkingWithMultipleHyperlinksAndSubmitButton</display-name>
+  <welcome-file-list>
+    <welcome-file>input.html</welcome-file>
+  </welcome-file-list>
+  
+  <!-- servlet conf -->
+  <servlet>
+  	<servlet-name>arithmetic</servlet-name>
+  	<servlet-class>com.nt.servlet.ArithmeticServlet</servlet-class>
+  </servlet>
+  
+  <!-- servlet-mapping conf -->
+  <servlet-mapping>
+  	<servlet-name>arithmetic</servlet-name>
+  	<url-pattern>/arithmeticurl</url-pattern>
+  </servlet-mapping>
+</web-app>
