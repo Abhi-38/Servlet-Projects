@@ -1,0 +1,17 @@
+
+<web-app>
+  <display-name>AllFormCompApp</display-name>
+  <welcome-file-list>
+    <welcome-file>all_form_comps.html</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+  	<servlet-name>allcomps</servlet-name>
+  	<servlet-class>com.nt.servlet.AllFormCompServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>allcomps</servlet-name>
+  	<url-pattern>/processurl</url-pattern>
+  </servlet-mapping>
+</web-app>
