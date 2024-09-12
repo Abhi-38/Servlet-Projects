@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+  <display-name>RegistrationAPIRetrival</display-name>
+  <welcome-file-list>
+    <welcome-file>retrive.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <display-name>Retrieval</display-name>
+    <servlet-name>Retrieval</servlet-name>
+    <servlet-class>com.abhi.prj.Retrieval</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Retrieval</servlet-name>
+    <url-pattern>/Retrieval</url-pattern>
+  </servlet-mapping>
+</web-app>
