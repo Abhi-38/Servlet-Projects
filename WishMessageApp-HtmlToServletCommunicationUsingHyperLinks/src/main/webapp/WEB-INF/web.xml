@@ -1,0 +1,23 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<web-app>
+ 	
+ 	<!-- servlet conf -->
+ 	<servlet>
+ 		<servlet-name>wish</servlet-name>
+ 		<servlet-class>com.nt.servlet.WishMessageServlet</servlet-class>
+ 	</servlet>
+ 	
+  	<!-- servlet mapping conf --> 
+	<servlet-mapping>
+		<servlet-name>wish</servlet-name>
+		<url-pattern>/wishurl</url-pattern>
+	</servlet-mapping>
+ 	
+ 	<!-- <welcome-file-list>
+ 		<welcome-file>page1.html</welcome-file>
+ 		<welcome-file>page.jsp</welcome-file>
+ 		<welcome-file>page.html</welcome-file>
+ 		<welcome-file>page2.html</welcome-file>
+ 	</welcome-file-list> -->
+ 	
+</web-app>
