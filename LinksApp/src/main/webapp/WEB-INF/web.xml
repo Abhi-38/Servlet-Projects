@@ -1,0 +1,14 @@
+
+<web-app>
+  <welcome-file-list>
+    <welcome-file>input.html</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>links</servlet-name>
+    <servlet-class>com.nt.servlet.LinksServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>links</servlet-name>
+    <url-pattern>/linksurl</url-pattern>
+  </servlet-mapping>
+</web-app>
